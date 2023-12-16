@@ -191,6 +191,20 @@ public class EquipSystem : MonoBehaviour
         return new GameObject();
     }
 
+
+    public bool CheckIfSwordEquipped()
+    {
+        if (selectedNumber != -1)
+        {
+            GameObject selectedItem = GetSelectedItem(selectedNumber);
+            return selectedItem != null && selectedItem.name.Contains("Sword");
+        }
+        return false;
+    }
+
+
+
+
     public bool CheckIfFull()
     {
         // проверяем, заполнены ли все слоты
