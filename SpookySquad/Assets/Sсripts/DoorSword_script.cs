@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-//---------------- Скрипт для одной двери ----------------//
+//---------------- Скрипт для дверей с условиями ----------------//
 
 public class SingleDoorScript : MonoBehaviour
 {
@@ -10,6 +10,8 @@ public class SingleDoorScript : MonoBehaviour
 
     public enum DoorAxis { X, Y, Z }
     public DoorAxis doorAxis;
+
+    public bool onlyOpen;
 
     public bool canBeOpenedNow;
 
@@ -29,6 +31,10 @@ public class SingleDoorScript : MonoBehaviour
 
     public Collider interactionCollider;
 
+    private InventorySystem inventorySystem;
+
+    public string requiredItem; // Необходимый предмет для открытия двери
+
     void Start()
     {
         if (openType == OpenType.Translate)
@@ -39,26 +45,38 @@ public class SingleDoorScript : MonoBehaviour
         {
             startRotation = transform.localRotation;
         }
+
+        inventorySystem = InventorySystem.Instance;
     }
 
     void Update()
     {
         if (canBeOpenedNow && !openCloseInProgress)
         {
-            if (Input.GetMouseButtonDown(0)) // ЛКМ
+            if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out hit) && hit.collider == interactionCollider && hit.collider.CompareTag("Sword"))
+                // Проверяем наличие необходимого предмета в инвентаре перед открытием двери
+                if (inventorySystem.CheckForItem(requiredItem))
                 {
-                    StartCoroutine(OpenCloseCoroutine());
+                    RaycastHit hit;
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(ray, out hit) && hit.collider == interactionCollider)
+                    {
+                        OpenClose();
+                    }
+                }
+                else
+                {
+                    // Если необходимого предмета нет, проигрываем звук и выводим сообщение в консоль
+                    if (notOpeningSound) notOpeningSound.Play();
+                    Debug.Log("Closed! Missing required item: " + requiredItem);
                 }
             }
         }
     }
 
-    IEnumerator OpenCloseCoroutine()
+    public void OpenClose()
     {
         if (moveOrRotSound) moveOrRotSound.Play();
 
@@ -72,12 +90,12 @@ public class SingleDoorScript : MonoBehaviour
         if (canBeOpenedNow)
         {
             canBeOpenedNow = false;
-            yield return StartCoroutine(EnableOpening());
+            StartCoroutine(EnableOpening());
         }
         else
         {
             if (notOpeningSound) notOpeningSound.Play();
-            Debug.Log("Door is closed!!!");
+            Debug.Log("Closed!!!");
         }
     }
 

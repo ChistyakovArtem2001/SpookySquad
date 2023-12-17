@@ -197,10 +197,29 @@ public class EquipSystem : MonoBehaviour
         if (selectedNumber != -1)
         {
             GameObject selectedItem = GetSelectedItem(selectedNumber);
-            return selectedItem != null && selectedItem.name.Contains("Sword");
+
+            if (selectedItem != null)
+            {
+         
+                Debug.Log("Holding item: " + selectedItem.name);
+
+                if (selectedItem.name.Contains("Sword"))
+                {
+                    Debug.Log("This is a sword!");
+                    return true;
+                }
+                else
+                {
+                    Debug.Log("This is not a sword.");
+                    return false;
+                }
+            }
         }
+
+        Debug.Log("No item selected.");
         return false;
     }
+
 
 
 
