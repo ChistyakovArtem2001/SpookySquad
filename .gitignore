@@ -2,6 +2,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+GhostlingAlone/[Ll]ibrary/
+GhostlingAlone/[Tt]emp/
+GhostlingAlone/[Oo]bj/
+GhostlingAlone/[Bb]uild/
+GhostlingAlone/[Bb]uilds/
+GhostlingAlone/[Ll]ogs/
+GhostlingAlone/[Mm]emoryCaptures/
+GhostlingAlone/[Uu]serSettings/
+GhostlingAlone/[Aa]ssetBundles/
+
 SpookySquad/[Ll]ibrary/
 SpookySquad/[Tt]emp/
 SpookySquad/[Oo]bj/
@@ -11,6 +21,7 @@ SpookySquad/[Ll]ogs/
 SpookySquad/[Mm]emoryCaptures/
 SpookySquad/[Uu]serSettings/
 SpookySquad/[Aa]ssetBundles/
+
 
 /Videos/
 /build_BurstDebugInformation_DoNotShip/
